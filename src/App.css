@@ -25,6 +25,9 @@
 .title{
   color: red;
 }
+.list{
+  width: 100%;
+}
 
 @keyframes App-logo-spin {
   from {
