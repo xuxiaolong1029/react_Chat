@@ -24,10 +24,10 @@ export function addGunAsyns(){
         },2000)
     }
 }
-export function removeGUNAsyns(){
+export function removeGunAsyns(){
     return dispatch=>{
         setTimeout(()=>{
-
+            dispatch(removeGun())
         },2000)
     }
 }

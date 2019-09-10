@@ -1,35 +1,37 @@
 import React from 'react';
+import {connect} from 'react-redux'
 import {Button,List} from 'antd-mobile';
 import 'antd-mobile/dist/antd-mobile.css'
 import './App.css';
+import {addGun,removeGun,addGunAsyns,removeGunAsyns} from './index.redux'
 
-
-function App(props) {
-  let boss = {
-    boos0:'李云龙',
-    boos1:'张大彪',
-    boos2:'沈权'
-  };
-  const store = props.store;
-  const num = store.getState();
-  const addGun = props.addGun;
-  const addGunAsyns = props.addGunAsyns;
-  const removeGun = props.removeGun
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p className="title">
-          独立团团长：{boss.boos0}
-        </p>
-        <Datt boos2={boss.boos2} boos1={boss.boos1}></Datt>
-        <p>{num}把</p>
-        <Button type='primary' onClick={()=>store.dispatch(addGun())}>加一把</Button>
-        <Button type='primary' onClick={()=>store.dispatch(removeGun())}>减一把</Button>
-        <Button type='primary' onClick={()=>store.dispatch(addGunAsyns())}>等2s</Button>
-      </header>
-    </div>
-  );
+class App extends React.Component{
+  render(){
+    let boss = {
+      boos0:'李云龙',
+      boos1:'张大彪',
+      boos2:'沈权'
+    };
+    return (
+      <div className="App">
+        <header className="App-header">
+          <Datt boos2={boss.boos2} boos1={boss.boos1}></Datt>
+          <p>{this.props.num}把</p>
+          <Button type='primary' onClick={this.props.addGun}>加一把</Button>
+          <Button type='primary' onClick={this.props.removeGun}>减一把</Button>
+          <Button type='primary' onClick={this.props.addGunAsyns}>等2s</Button>
+        </header>
+      </div>
+    );
+  }
 }
+const mapStatetoProps=(state)=>{
+  return {num:state}
+}
+const actionCreators = {addGun,removeGun,addGunAsyns,removeGunAsyns}
+App = connect(mapStatetoProps,actionCreators)(App)
+export default App;
+
 class Datt extends React.Component{
   constructor(props){
     super(props)
@@ -70,5 +72,3 @@ class Datt extends React.Component{
     )
   }
 }
-
-export default App;
