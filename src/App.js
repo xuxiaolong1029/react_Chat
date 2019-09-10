@@ -5,6 +5,13 @@ import 'antd-mobile/dist/antd-mobile.css'
 import './App.css';
 import {addGun,removeGun,addGunAsyns,removeGunAsyns} from './index.redux'
 
+@connect(
+  //state什么属性放到props里
+  state=>({num:state}),
+  //你要什么方法，放到props里，自动dispatch
+  {addGun,removeGun,addGunAsyns,removeGunAsyns}
+)
+
 class App extends React.Component{
   render(){
     let boss = {
@@ -25,11 +32,7 @@ class App extends React.Component{
     );
   }
 }
-const mapStatetoProps=(state)=>{
-  return {num:state}
-}
-const actionCreators = {addGun,removeGun,addGunAsyns,removeGunAsyns}
-App = connect(mapStatetoProps,actionCreators)(App)
+
 export default App;
 
 class Datt extends React.Component{

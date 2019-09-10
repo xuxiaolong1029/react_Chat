@@ -13,6 +13,7 @@ const store = createStore(counter,compose(
     window.devToolsExtension?window.devToolsExtension():f=>f
 ));
 ReactDOM.render(
-    (<Provider store={store}><App/></Provider>),document.getElementById('root')
+    (<Provider store={store}><App/></Provider>),
+    document.getElementById('root')
 );
 //store.subscribe(render); //订阅一次 （react 单向绑定）
