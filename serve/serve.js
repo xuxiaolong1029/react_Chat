@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose')
 //链接mongo
-const DB_URL = 'mongodb://localhost:27017'
+const DB_URL = 'mongodb://localhost:27017/User'
 mongoose.connect(DB_URL);
 mongoose.connection.on('connected',function(){
     //是否连接成功
@@ -13,16 +13,16 @@ const User = mongoose.model('user',new mongoose.Schema({
     age:{type:Number,require:true}
 }))
 //新增数据
-// User.create({
-//     user:'XUxiaolong',
-//     age:27
-// },function(err,doc){
-//     if(!err){
-//         console.log(doc)
-//     }else{
-//         console.log(err)
-//     }
-// })
+/* User.create({
+    user:'XUXIAOLONG',
+    age:25
+},function(err,doc){
+    if(!err){
+        console.log(doc)
+    }else{
+        console.log(err)
+    }
+}) */
 //修改数据
 // User.update({'user':'XUxiaolong'},{'$set':{age:15}},function(err,doc){
 //     console.log(doc)
@@ -37,7 +37,7 @@ app.get('/',function(req,res){
  res.send('<h1>hello world</h1>')
 })
 app.get('/data',function(req,res){
-    User.findOne({user:'XUxiaolong'},function(err,doc){
+    User.find({},function(err,doc){
         res.json(doc)
     })
 })
