@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+//import './config'
 const LOGIN = 'LOGIN'
 const LOGOUT = 'LOGOUT'
 const USER_DATA = 'USER_DATA'

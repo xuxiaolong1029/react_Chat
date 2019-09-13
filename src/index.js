@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {BrowserRouter,Route,Link,Switch} from 'react-router-dom';
 import './index.css';
 import reducer from './reducers';
+import './config'
 import App from './App';
 import Auth from './Auth';
 
