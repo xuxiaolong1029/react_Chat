@@ -5,23 +5,25 @@ import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import {BrowserRouter,Route,Link,Switch} from 'react-router-dom';
 import './index.css';
-import{counter} from './index.redux';
-
+import reducer from './reducers';
 import App from './App';
 import Auth from './Auth';
 
 //const reduxDevtools = window.devToolsExtension?window.devToolsExtension
-const store = createStore(counter,compose(
+const store = createStore(reducer,compose(
     applyMiddleware(thunk),
     window.devToolsExtension?window.devToolsExtension():f=>f
 ));
+
 ReactDOM.render(
     (<Provider store={store}>
         <BrowserRouter>
             <div>
-                <ul>
+                <ul className="menu">
                     <li>
-                        <Link to='/'>首页</Link>
+                        <Link to='/'>首页</Link> 
+                    </li>
+                    <li>
                         <Link to='/auth'>登录</Link>
                     </li>
                 </ul>

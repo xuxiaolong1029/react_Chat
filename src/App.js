@@ -3,21 +3,22 @@ import {connect} from 'react-redux'
 import {Button} from 'antd-mobile';
 import 'antd-mobile/dist/antd-mobile.css'
 import './App.css';
-import {addGun,removeGun,addGunAsyns,removeGunAsyns} from './index.redux'
+import {addGun,removeGun,addGunAsyns,removeGunAsyns} from './App.redux'
 
 @connect(
   //state什么属性放到props里
-  state=>({num:state}),
+  state => ({num:state}),
   //你要什么方法，放到props里，自动dispatch
   {addGun,removeGun,addGunAsyns,removeGunAsyns}
 )
 
 class App extends React.Component{
   render(){
+    console.log(this.props.num.counter)
     return (
       <div className="App">
         <header className="App-header">
-          <p>{this.props.num}把</p>
+          <p>{this.props.num.counter}把</p>
           <Button type='primary' onClick={this.props.addGun}>加一把</Button>
           <Button type='primary' onClick={this.props.removeGun}>减一把</Button>
           <Button type='primary' onClick={this.props.addGunAsyns}>等2s</Button>

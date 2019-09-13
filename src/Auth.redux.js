@@ -9,21 +9,23 @@ const initState = {
     age:20
 }
 export function auth(state=initState,action){
-    debugger
-    console.log(state,action)
     switch(action.type){
         case LOGIN:
-            return{...state,isAuth:true}
+            return {...state,isAuth:true}
         case LOGOUT:
-            return{...state,isAuth:false}
+            return {...state,isAuth:false}
+        case USER_DATA:
+            return {...state,...action.payload}
         default:
             return state
     }
 }
+//action
 export function getUserData(){
     return dispatch=>{
         axios.get('/data').then(res=>{
-            dispatch(userData(res.data));
+            let data = {...res.data[0]}
+            dispatch(userData(data));
          }).catch(err=>{
  
          })
