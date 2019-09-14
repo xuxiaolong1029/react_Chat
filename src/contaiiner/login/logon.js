@@ -18,7 +18,13 @@ class Login extends React.Component{
         return (
             <div>
                 <Logo></Logo>
+                <h2>我是登录页面</h2>
                 <WingBlank>
+                    <List>
+                        <InputItem>用户名</InputItem>
+                        <WhiteSpace/>
+                        <InputItem>密码</InputItem>
+                    </List>
                     <Button onClick={this.Login} type='primary'>登录</Button>
                     <WhiteSpace/>
                     <Button onClick={this.register} type='primary'>注册</Button>
