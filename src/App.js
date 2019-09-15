@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Button} from 'antd-mobile';
 import 'antd-mobile/dist/antd-mobile.css'
 import './App.css';
-import {addGun,removeGun,addGunAsyns,removeGunAsyns} from './App.redux'
+import {addGun,removeGun,addGunAsyns,removeGunAsyns} from './redux/App.redux'
 
 @connect(
   //state什么属性放到props里

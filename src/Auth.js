@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import {login,getUserData} from './Auth.redux.js'
+import {login,getUserData} from './redux/Auth.redux.js'
 
 @connect(
     state => state.auth,
