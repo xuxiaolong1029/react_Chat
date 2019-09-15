@@ -2,8 +2,8 @@ import React from 'react';
 import {NavBar,InputItem,WhiteSpace,TextareaItem,Button} from 'antd-mobile'
 import Avatar from  '../../component/avatar/avatar';
 import {connect} from 'react-redux';
-import {update} from '../../redux/user.redux';
-
+import {updata} from '../../redux/user.redux';
+import {Redirect} from 'react-router-dom'
 @connect(
     state=>state.user,
     {updata}
@@ -12,7 +12,7 @@ class BossInfo extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            avatar:'',
+            avatar:'whale',
             title:'前端工程师',
             company:'',
             money:'',
@@ -24,19 +24,18 @@ class BossInfo extends React.Component{
             [key]:val
         })
     }
-    selectAvatar(icon){
-        this.setState({
-            avatar:icon
-        })
-    }
     handleSave(){
-        console.log(this.state)
+        this.props.updata(this.state)
     }
     render(){
+        const path = this.props.location.pathname;
+        const redirect = this.props.redirecTo;
         return(
             <div>
+                {redirect&&redirect!==path?<Redirect to={redirect} />:null}
                 <NavBar mode='dark'>boss信息完善</NavBar>
-                <Avatar selectAvatar={this.selectAvatar.bind(this,'avatar')}></Avatar>
+                <Avatar selectAvatar={(icon)=>{
+                     this.setState({ avatar:icon }) }}></Avatar>
                 <InputItem value={this.state.title} onChange={this.handleChange.bind(this,'title')}>招聘职位</InputItem>
                 <InputItem value={this.state.company} onChange={this.handleChange.bind(this,'company')}>公司名称</InputItem>
                 <InputItem value={this.state.money} onChange={this.handleChange.bind(this,'money')}>职位薪资</InputItem>
