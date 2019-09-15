@@ -1,8 +1,14 @@
-import React from 'React'
-import {connect} from 'react-redux'
+import React from 'React';
+import {Redirect} from 'react-router-dom'
+import {connect} from 'react-redux';
 import Logo from  '../../component/logo/logo';
 import {List,InputItem,WingBlank,WhiteSpace,Button} from 'antd-mobile';
-import { login } from '../../redux/user.redux'
+import { login } from '../../redux/user.redux';
+import '../public.css'
+const title={
+    marginLeft:'15px',
+    fontSize:'18px'
+}
 @connect(
     state=>state.user,
     {login}
@@ -29,14 +35,17 @@ class LoginPage extends React.Component{
     render(){
         return (
             <div>
+                {this.props.redirecTo?<Redirect to={this.props.redirecTo} />:null}
                 <Logo></Logo>
-                <h2>我是登录页面</h2>
+                <h2 style={title}>我是登录页面</h2>
+                {this.props.msg?<p className='error-msg'>{this.props.msg}</p>:null}
                 <WingBlank>
                     <List>
                         <InputItem value={this.state.user} onChange={this.handleChange.bind(this,'user')}>用户名</InputItem>
                         <WhiteSpace/>
-                        <InputItem value={this.state.pwd} onChange={this.handleChange.bind(this,'pwd')}>密码</InputItem>
+                        <InputItem type='password' value={this.state.pwd} onChange={this.handleChange.bind(this,'pwd')}>密码</InputItem>
                     </List>
+                    <WhiteSpace/><WhiteSpace/><WhiteSpace/>
                     <Button onClick={this.handleLogin.bind(this)} type='primary'>登录</Button>
                     <WhiteSpace/>
                     <Button onClick={this.register.bind(this)} type='primary'>注册</Button>

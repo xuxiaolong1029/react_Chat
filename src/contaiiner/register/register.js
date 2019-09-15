@@ -33,7 +33,7 @@ class Register extends React.Component{
         //console.log(this.props)
         return (
             <div>
-                {this.props.redirectTo?<Redirect to={this.props.redirectTo}></Redirect>:null}
+                {this.props.redirecTo?<Redirect to={this.props.redirecTo}/>:null}
                 <Logo></Logo>
                 {this.props.msg?<p className='error-msg'>{this.props.msg}</p>:null}
                 <List>
