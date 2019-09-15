@@ -1,25 +1,33 @@
 //reducer
-import axios from 'axios'
-
+import axios from 'axios';
+import {getReadirection} from '../unit';
 const REGISTER_SUCCESS='REGISTER_SUCCESS';
+const LOGIN_SUCESS = 'LOGIN_SUCESS';
 const ERROR_MSG = 'ERROR_MSG';
 
 const initState={
-    isAuth:'',
+    redirecTo:'',
+    isAuth:false,
     msg:'',
     user:"",
     pwd:'',
     type:''
 }
 
-export function user(state,action){
-    switch(action,type){
+export function user(state=initState,action){
+    switch(action.type){
         case REGISTER_SUCCESS:
-            return{ ...state,msg,isAuth,...action.payload}
+            return{ ...state,msg:'',redirecTo:getReadirection(action.payload),isAuth:true,...action.payload}
+        case LOGIN_SUCESS:
+            return{ ...state,msg:'',redirecTo:getReadirection(action.payload),isAuth:true,...action.payload}
         case ERROR_MSG:
             return {...state,isAuth:false,msg:action.msg}
-    }
-    return state
+        default:
+            return state
+    }   
+}
+function loginSuccess(data){
+    return {type:LOGIN_SUCESS,payload:data}
 }
 function registerSuccess(data){
     return { type:REGISTER_SUCCESS,payload:data}
@@ -27,8 +35,25 @@ function registerSuccess(data){
 function errMsg(msg){
     return {msg,type:ERROR_MSG}
 }
-export function register({user,pwd,confirmPwd}){
+export function login({user,pwd}){
     if(!user||!pwd){
+        return errMsg('用户名密码必须输入')
+    }
+    return dispatch=>{
+        axios.post('/user/login',{user,pwd})
+        .then(res=>{
+            if(res.status===200&&res.data.code===0){
+                dispatch(loginSuccess(res.data.data))
+            }else{
+                dispatch(errMsg(res.data.msg))
+            }
+        }).catch(err=>{
+            dispatch(errMsg(err))
+        })
+    }
+}
+export function register({user,pwd,confirmPwd,type}){
+    if(!user||!pwd||!type){
         return errMsg('用户名密码必须输入')
     }
     if(pwd!==confirmPwd){
@@ -40,10 +65,10 @@ export function register({user,pwd,confirmPwd}){
             if(res.status===200&&res.data.code===0){
                 dispatch(registerSuccess({user,pwd,type}))
             }else{
-                dispatch(ERROR_MSG(res.data.msg))
+                dispatch(errMsg(res.data.msg))
             }
         }).catch(err=>{
-            dispatch(ERROR_MSG(err))
+            dispatch(errMsg(err))
         })
     }
 }

@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import {BrowserRouter,Route} from 'react-router-dom';
 import Register from './contaiiner/register/register'
-import Login from './contaiiner/login/logon';
+import LoginPage from './contaiiner/login/login';
 import AuthRoute from './component/authroute/authroute'
 import reducer from './reducers';
 import './config'
@@ -23,7 +23,7 @@ ReactDOM.render(
             <div>
                 <AuthRoute></AuthRoute>
                 <Route path='/boss' component={Boss}></Route>
-                <Route path='/login' component={Login}></Route>
+                <Route path='/login' component={LoginPage}></Route>
                 <Route path='/register' component={Register}></Route>
             </div>
         </BrowserRouter>
