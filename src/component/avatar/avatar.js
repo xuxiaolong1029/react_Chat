@@ -1,7 +1,6 @@
 import React from 'react';
 import {Grid,List} from 'antd-mobile'
 
-
 class Avatar extends React.Component{
     constructor(props){
         super(props)

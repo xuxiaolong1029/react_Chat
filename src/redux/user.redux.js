@@ -1,12 +1,9 @@
 //reducer
 import axios from 'axios';
 import {getReadirection} from '../unit';
-//const REGISTER_SUCCESS='REGISTER_SUCCESS';
-//const LOGIN_SUCESS = 'LOGIN_SUCESS';
 const AUTH_SUCCESS = 'AUTH_SUCCESS';
 const ERROR_MSG = 'ERROR_MSG';
 const LOAD_DATA = 'LOAD_DATA';
-
 
 const initState={
     redirecTo:'',
@@ -32,7 +29,8 @@ export function user(state=initState,action){
 export function loadData(userinfo){
     return {type:LOAD_DATA,payload:userinfo}
 }
-function authSuccess(data){
+function authSuccess(obj){
+    const {pwd,...data} = obj
     return {type:AUTH_SUCCESS,payload:data}
 }
 function errMsg(msg){
