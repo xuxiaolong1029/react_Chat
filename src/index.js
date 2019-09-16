@@ -9,9 +9,10 @@ import LoginPage from './contaiiner/login/login';
 import BossInfo from './contaiiner/BossInfo/BossInfo';
 import GeniusInfo from './contaiiner/GeniusInfo/index';
 import AuthRoute from './component/authroute/authroute';
-import Dashboard from './component/Dashboard/index';
+import Dashboard from './component/dashboard/index';
 import reducer from './reducers';
 import './config'
+import './index.css'
 
 const store = createStore(reducer,compose(
     applyMiddleware(thunk),
