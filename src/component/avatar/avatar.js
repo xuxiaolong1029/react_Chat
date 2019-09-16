@@ -10,7 +10,7 @@ class Avatar extends React.Component{
     render(){
         const avatarList = 'boy,girl,man,woman,bull,chick,crab,hedgehog,hippopotamus,koala,lemur,pig,tiger,whale,zebra'
         .split(',').map(v=>({icon:require(`../img/${v}.png`),text:v}));  
-        const gridHeader = this.state.icon?(<div><span>已选择的头像</span><img style={{with:15}} src={this.state.icon}></img></div>)
+        const gridHeader = this.state.icon?(<div><span>已选择的头像</span><img style={{with:15}} src={this.state.icon} alt='头像'></img></div>)
         :<div>请选择头像</div>
         return(
             <div>
