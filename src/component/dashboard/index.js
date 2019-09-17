@@ -2,6 +2,11 @@ import React from 'react';
 import { connect } from "react-redux";
 import {NavBar } from 'antd-mobile';
 import NavListBar from "../navlink/index";
+import {Switch,Route} from 'react-router-dom';
+import User from '../center/index';
+import Boss from '../boss/index';
+import Genius from '../genius/index';
+import Msg from '../message/index';
 // TabBar, ListView,
 @connect(
     state=>state
@@ -9,7 +14,7 @@ import NavListBar from "../navlink/index";
 
 class Dashboard extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
 		this.state={}
     }
     render(){
@@ -37,24 +42,22 @@ class Dashboard extends React.Component{
         ]
         return(
             <div>
-                <NavBar mode='dark'>{navList.find((v)=>v.path===pathname).title||''}</NavBar>
+                <NavBar className='fiex-header' mode='dark'>{navList.find((v)=>v.path===pathname).title||''}</NavBar>
+                <div style={{marginTop:45}}>
+                    <Switch>
+                        {
+                            navList.map(v=>(
+                                <Route key={v.path} path={v.path} component={v.component}></Route>
+                            ))
+                        }
 
+                    </Switch>
+                </div>
                 <NavListBar data={navList}></NavListBar>
             </div>  
         )
     }
 }
 
-function Boss() {
-    return <h2>boss页面</h2>
-}
-function Genius() {
-    return <h2>牛人页面</h2>
-}
-function Msg() {
-    return <h2>消息页面</h2>
-}
-function User() {
-    return <h2>个人中心页面</h2>
-}
+
 export default Dashboard

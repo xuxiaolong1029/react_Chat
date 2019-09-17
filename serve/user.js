@@ -7,8 +7,9 @@ const _filter = {'pwd':0,'_v':0};
 
 Router.get('/list',function(req,res){
     //User.remove({},function(e,d){})
-    User.find({},function(err,doc){
-        return res.json(doc)
+    const {type}=req.query;
+    User.find({type},function(err,doc){
+        return res.json({code:0,data:doc})
     })
 })
 
@@ -18,7 +19,7 @@ Router.post('/register',function(req,res){
         if(doc){
             return res.json({code:1,msg:'用户名重复'})
         }
-        const userModel = new User({user,type,pwd:md5Pwd(pwd)})
+        const userModel = new User({user,type,pwd:md5Pwd(pwd)});
         userModel.save(function(e,d){
             if(e){
                 return res.json({code:1,msg:'服务端出错了'})
@@ -51,7 +52,6 @@ Router.post('/login',function(req,res){
             return res.json({code:1,msg:'用户名或者密码错误'})
         }
         res.cookie('userid',doc._id);
-        console.log(doc)
         return res.json({code:0,data:doc})
     })
 })

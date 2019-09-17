@@ -13,10 +13,9 @@ class NavListBar extends React.Component{
         //seilectedIcon:{{url:require(`./img/${v.icon}-active.png`)}}
         const navList = this.props.data.filter(v=>!v.hide);
         return(
-            <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
-                <TabBar>
-                    {navList.map(v=>(
-                        <TabBar.Item
+            <TabBar>
+                {navList.map(v=>(
+                    <TabBar.Item
                         key={v.path}
                         title={v.text}
                         icon={{uri: require(`./img/${v.icon}.png`)}}
@@ -25,10 +24,9 @@ class NavListBar extends React.Component{
                         onPress={()=>{
                             this.props.history.push(v.path)
                         }}
-                        ></TabBar.Item>
-                    ))}
-                </TabBar>
-            </div>
+                    ></TabBar.Item>
+                ))}
+            </TabBar>
         )
     }
 }
