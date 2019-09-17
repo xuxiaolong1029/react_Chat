@@ -3,14 +3,9 @@
     padding-left: 10px;
     padding-top: 10px;
 }
-.am-tab-bar{
+.footer{
     position: fixed;
     bottom: 0;
-    width: 100%;
-}
-.fiex-header,.am-navbar{
-    position: fixed;
-    top: 0;
     width: 100%;
 }
 .page-content{

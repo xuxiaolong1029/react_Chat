@@ -15,7 +15,7 @@ import Msg from '../message/index';
 class Dashboard extends React.Component{
     constructor(props){
         super(props);
-		this.state={}
+        this.state={}
     }
     render(){
         const pathname = this.props.location.pathname;
@@ -39,11 +39,11 @@ class Dashboard extends React.Component{
                 path:'/me',text:'我',icon:'user',
                 title:'个人中心',component:User
             },
-        ]
+        ];
         return(
             <div>
-                <NavBar className='fiex-header' mode='dark'>{navList.find((v)=>v.path===pathname).title||''}</NavBar>
-                <div style={{marginTop:45}}>
+                <NavBar mode='dark'>{navList.find((v)=>v.path===pathname).title||''}</NavBar>
+                <div>
                     <Switch>
                         {
                             navList.map(v=>(
@@ -53,11 +53,11 @@ class Dashboard extends React.Component{
 
                     </Switch>
                 </div>
-                <NavListBar data={navList}></NavListBar>
-            </div>  
+                <div className="footer">>
+                    <NavListBar data={navList}></NavListBar>
+                </div>
+            </div>
         )
     }
 }
-
-
 export default Dashboard

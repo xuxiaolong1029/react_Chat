@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 class NavListBar extends React.Component{
     static propTypes = {
         data: PropTypes.array.isRequired
-    }
+    };
     render(){
         const {pathname} = this.props.location;
         //icon:{{url:require(`./img/${v.icon}.png`)}}
