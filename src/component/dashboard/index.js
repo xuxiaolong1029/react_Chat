@@ -42,7 +42,7 @@ class Dashboard extends React.Component{
         ];
         return(
             <div>
-                <NavBar mode='dark'>{navList.find((v)=>v.path===pathname).title||''}</NavBar>
+                <NavBar mode='dark'>{navList.find(v=>v.path===pathname).title}</NavBar>
                 <div>
                     <Switch>
                         {
@@ -54,7 +54,7 @@ class Dashboard extends React.Component{
                     </Switch>
                 </div>
                 <div className="footer">
-                    <NavListBar data={navList}></NavListBar>
+                    <NavListBar data={navList}/>
                 </div>
             </div>
         )

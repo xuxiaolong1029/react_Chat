@@ -2,9 +2,10 @@ import React from 'React';
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux';
 import Logo from  '../../component/logo/logo';
-import {List,InputItem,WingBlank,WhiteSpace,Button} from 'antd-mobile';
+import { List,InputItem,WingBlank,WhiteSpace,Button } from 'antd-mobile';
 import { login } from '../../redux/user.redux';
 import '../public.css'
+//装饰器  属性代理
 const title={
     marginLeft:'15px',
     fontSize:'18px'

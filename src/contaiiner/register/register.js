@@ -29,8 +29,7 @@ class Register extends React.Component{
         this.props.register(this.state)
     }
     render(){
-        const RadioItem = Radio.RadioItem
-        //console.log(this.props)
+        const RadioItem = Radio.RadioItem;
         return (
             <div>
                 {this.props.redirecTo?<Redirect to={this.props.redirecTo}/>:null}
@@ -39,7 +38,7 @@ class Register extends React.Component{
                 <List>
                     <InputItem value={this.state.user} onChange={this.handleChange.bind(this,'user')}>用户名</InputItem>
                     <WhiteSpace/>
-                    <InputItem type='password' value={this.state.pwd} 
+                    <InputItem type='password' value={this.state.pwd}
                     onChange={this.handleChange.bind(this,'pwd')}
                     >密码</InputItem>
                     <WhiteSpace/>
