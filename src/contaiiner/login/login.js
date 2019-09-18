@@ -35,7 +35,7 @@ class LoginPage extends React.Component{
     render(){
         return (
             <div>
-                {this.props.redirecTo?<Redirect to={this.props.redirecTo} />:null}
+                {this.props.redirecTo&&this.props.redirecTo!=='/login'?<Redirect to={this.props.redirecTo} />:null}
                 <Logo></Logo>
                 <h2 style={title}>我是登录页面</h2>
                 {this.props.msg?<p className='error-msg'>{this.props.msg}</p>:null}

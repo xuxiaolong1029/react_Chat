@@ -22,7 +22,7 @@ ReactDOM.render(
     (<Provider store={store}>
         <BrowserRouter>
             <div>
-                <AuthRoute></AuthRoute>
+                <AuthRoute/>
                 <Switch>
                     <Route path='/bossinfo' component={BossInfo}>
                     </Route>

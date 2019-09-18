@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Result,List,WhiteSpace,Modal }from 'antd-mobile'
-import browserCookies from 'browser-cookies';
-
+import cookies from 'browser-cookies';
+import { logoutSubmit } from '../../redux/user.redux'
+import { Redirect } from  'react-router-dom'
 @connect(
-    stats=>stats.user
+    stats=>stats.user,
+    {logoutSubmit}
 )
 class User extends React.Component{
     logOut(){
@@ -12,8 +14,8 @@ class User extends React.Component{
         alert('注销','确认退出吗？？？', [
             { text: '取消', onPress: () => console.log('cancel') },
             { text: '确认', onPress: () => {
-                browserCookies.erase('userid');
-                window.location.reload();
+                cookies.erase('userid');
+                this.props.logoutSubmit();
             } },
         ])
     }
@@ -42,7 +44,7 @@ class User extends React.Component{
                     <Item onClick={this.logOut.bind(this)}>退出登录</Item>
                 </List>
             </div>
-        ):null
+        ):<Redirect to={this.props.redirecTo} />
     }
 }
 export default User

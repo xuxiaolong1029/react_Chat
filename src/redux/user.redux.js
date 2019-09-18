@@ -4,33 +4,35 @@ import {getReadirection} from '../unit';
 const AUTH_SUCCESS = 'AUTH_SUCCESS';
 const ERROR_MSG = 'ERROR_MSG';
 const LOAD_DATA = 'LOAD_DATA';
-
+const LOGOUT = 'LOGOUT';
 const initState={
     redirecTo:'',
     isAuth:false,
     msg:'',
     user:"",
     type:''
-}
+};
 
 export function user(state=initState,action){
     switch(action.type){
         case AUTH_SUCCESS:
-            return{ ...state,msg:'',redirecTo:getReadirection(action.payload),...action.payload}
+            return{ ...state,msg:'',redirecTo:getReadirection(action.payload),...action.payload};
         case LOAD_DATA:
-                return{ ...state,msg:'',...action.payload}
+                return{ ...state,msg:'',...action.payload};
         case ERROR_MSG:
-            return {...state,isAuth:false,msg:action.msg}
+            return {...state,isAuth:false,msg:action.msg};
+        case LOGOUT:
+            return {...initState,redirecTo:'/login'};
         default:
             return state
-    }   
+    }
 }
 
 export function loadData(userinfo){
     return {type:LOAD_DATA,payload:userinfo}
 }
 function authSuccess(obj){
-    const {pwd,...data} = obj
+    const {pwd,...data} = obj;
     return {type:AUTH_SUCCESS,payload:data}
 }
 function errMsg(msg){
@@ -86,4 +88,7 @@ export function register({user,pwd,confirmPwd,type}){
             dispatch(errMsg(err))
         })
     }
+}
+export function logoutSubmit() {
+    return {type:LOGOUT}
 }
