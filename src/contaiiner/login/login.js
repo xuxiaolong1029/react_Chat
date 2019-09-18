@@ -8,7 +8,7 @@ import '../public.css'
 const title={
     marginLeft:'15px',
     fontSize:'18px'
-}
+};
 @connect(
     state=>state.user,
     {login}

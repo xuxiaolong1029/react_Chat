@@ -21,9 +21,17 @@ class myapp{
         console.log(`hello  ${this.name}`);
     }
 }
-let obj={
-    name:'imooc',
-    age:18
-}
+let obj={ name:'imooc', age:18 };
 const app = new myapp(obj);
 app.sayHello()
+function hello() {
+    console.log('hello')
+}
+function Imooc(fn) {
+    return function () {
+        fn();
+        console.log('imooc') ;
+    }
+}
+hello = Imooc(hello);
+hello()

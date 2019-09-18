@@ -38,8 +38,7 @@ class User extends React.Component{
                         }
                     </Item>
                 </List>
-                <WhiteSpace>
-                </WhiteSpace>
+                <WhiteSpace/>
                 <List>
                     <Item onClick={this.logOut.bind(this)}>退出登录</Item>
                 </List>
