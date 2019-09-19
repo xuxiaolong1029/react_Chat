@@ -15,14 +15,19 @@ const models={
         'money':{type:String}
     },
     chat:{
-
+        'chatId':{type:String,require:true},//聊天id
+        'from':{type:String,require:true},//发送人
+        'to':{type:String,require:true},//接收人
+        'content':{type:String,require:true,default:''},//发送内容
+        'read':{type:Boolean,require:true,default:false},//已读未读
+        'create_time':{type:Number,default:new Date().getTime()}//时间
     }
-}
+};
 
 for(let m in models){
     mongoose.model(m,new mongoose.Schema(models[m]))
 }
-module.exports={
+module.exports = {
     getModel:function(name){
         return mongoose.model(name)
     }

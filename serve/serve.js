@@ -20,9 +20,9 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 io.on('connection',function(socket){
     socket.on('CHAT_SEND',function (data) {
-        console.log(data);
         const {text} = data;
-        console.log(text)
+        console.log(text);
+        io.emit('recvmsg',data)
     })
 });
 const userRouter = require('./user');
