@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const model = require('./dbase');
+const Chat = model.getModel('chat');
 //新建app
 const app = express();
 //解决跨域
@@ -20,9 +22,12 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 io.on('connection',function(socket){
     socket.on('CHAT_SEND',function (data) {
-        const {text} = data;
-        console.log(text);
-        io.emit('recvmsg',data)
+        const {from,to,msg} = data;
+        const chatId = [from,to].sort().join('_');
+        Chat.create({chatId, from, to, content: msg}, function (err, doc) {
+            io.emit('recvmsg', Object.assign({},doc._doc))
+        });
+        console.log(data);
     })
 });
 const userRouter = require('./user');

@@ -1,15 +1,12 @@
 import React from 'react'
 import {List,InputItem} from 'antd-mobile'
 import { connect } from 'react-redux';
-import io from 'socket.io-client'
-//import { getMsgList } from  '../../redux/chat.redux'
+import {getMsgList,senMsg,recvMsg} from  '../../redux/chat.redux'
+
 @connect(
-    state=>state
+    state=>state,
+    { getMsgList,senMsg,recvMsg }
 )
-
-const socket = io('ws://localhost:9093');
-
-
 class Msg extends React.Component{
     constructor(props){
         super(props);
@@ -18,29 +15,27 @@ class Msg extends React.Component{
         };
     }
     componentDidMount(){
-       // this.getMsgList
-        socket.on('recvmsg',(data)=>{
-            this.setState({
-                msg:[...this.state.msg,data.text]
-            });
-        })
+       this.props.getMsgList();
+       this.props.recvMsg();
     }
     handelSubmit(){
-        socket.emit('CHAT_SEND',{text:this.state.text});
+        let from = this.props.user._id;
+        let to = this.props.location.search.split('=')[1];
+        let msg = this.state.text;
+        this.props.senMsg(from,to,msg);
         this.setState({
             text:''
-        })
+        });
     }
     render(){
-       // const userName = this.props.location.search.split('=')[1];
+      /*  console.log(this.props.chat.chatmsg)*/
         return(
-            <div>
+            <div id='chat-page'>
                 {
-                    this.state.msg.map(v=>{
-                        return <p key={v}>{v}</p>
+                    this.props.chat.chatmsg.map(v=>{
+                        return <p key={v._id}>{v.content}</p>
                     })
                 }
-               {/* <h2>chat with user:{ decodeURIComponent(userName)}</h2>*/}
                 <div className='stick-footer'>
                     <List>
                         <InputItem

@@ -20,6 +20,7 @@ class Dashboard extends React.Component{
     render(){
         const pathname = this.props.location.pathname;
         const user = this.props.user;
+        console.log(user)
         const navList = [
             {
                 path:'/boss',text:'牛人',icon:'boss',
@@ -33,7 +34,7 @@ class Dashboard extends React.Component{
             },
             {
                 path:'/msg',text:'消息',icon:'msg',
-                title:'消息列表',component:Msg
+                title:this.props.location.search.split('=')[1],component:Msg
             },
             {
                 path:'/me',text:'我',icon:'user',
@@ -42,7 +43,10 @@ class Dashboard extends React.Component{
         ];
         return(
             <div>
-                <NavBar mode='dark'>{navList.find(v=>v.path===pathname).title}</NavBar>
+                <NavBar mode='dark'>{
+                   navList.find(v=>v.path===pathname).title
+                }
+                </NavBar>
                 <div>
                     <Switch>
                         {
