@@ -3,30 +3,38 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 //新建app
 const app = express();
-
+//解决跨域
+app.all('*',function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With');
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    if (req.method === 'OPTIONS') {
+        res.send(200);
+    }
+    else {
+        next();
+    }
+});
 // work with express
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
-io.on('connection', function (socket) {
-    console.log("server connecting");
-    socket.on('sendmsg', function (data) {
-        const {from, to, msg} = data
-      /*  const chatid = [from, to].sort().join('_')
-        Chat.create({chatid, from, to, content: msg}, function (err, doc) {
-            io.emit('recvmsg', Object.assign({},doc._doc))
-        })*/
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+io.on('connection',function(socket){
+    socket.on('CHAT_SEND',function (data) {
+        console.log(data);
+        const {text} = data;
+        console.log(text)
     })
-})
+});
 const userRouter = require('./user');
 
 app.use(cookieParser());
-app.use(bodyParser.json())
-app.use('/user',userRouter)
+app.use(bodyParser.json());
+app.use('/user',userRouter);
 
 app.get('/',function(req,res){
  res.send('<h1>hello world</h1>')
-})
+});
 
-app.listen(9093,function(){
-    console.log('node app start at port 9093')
-})
+server.listen(9093,function(){
+    console.log('Node app start at port 9093');
+});
