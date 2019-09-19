@@ -10,7 +10,7 @@ const MSG_RECV = 'MSG_RECV';
 const MSG_READ = 'MSG_READ';
 
 const initState = {
-    chatmsg:[],
+    chatMsg:[],
     unread:0
 };
 
@@ -18,11 +18,11 @@ export function chat(state=initState,action) {
     switch(action.type){
         case MSG_LIST:
             return {
-                ...state,chatmsg:action.payload,unread:action.payload.filter(v=>v.read).length
+                ...state,chatMsg:action.payload,unread:action.payload.filter(v=>v.read).length
             };
         case MSG_RECV:
             return {
-                ...state, chatmsg:[...state.chatmsg, action.payload],unread:state.unread + 1
+                ...state, chatMsg:[...state.chatMsg, action.payload],unread:state.unread + 1
             };
         case MSG_READ:
             return {};

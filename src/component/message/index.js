@@ -29,11 +29,21 @@ class Msg extends React.Component{
     }
     render(){
       /*  console.log(this.props.chat.chatmsg)*/
+        const fromUserId = this.props.location.search.split('=')[1];
+        const Item = List.Item;
         return(
             <div id='chat-page'>
                 {
-                    this.props.chat.chatmsg.map(v=>{
-                        return <p key={v._id}>{v.content}</p>
+                    this.props.chat.chatMsg.map(v=>{
+                        return v.from===fromUserId?(
+                            <List key={v._id}>
+                                <Item>对方发送的：{v.content}</Item>
+                            </List>
+                        ):(
+                            <List key={v._id}>
+                                <Item extra={'avatar'} className='chat-me'>{v.content}</Item>
+                            </List>
+                        )
                     })
                 }
                 <div className='stick-footer'>
