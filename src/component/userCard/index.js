@@ -9,7 +9,7 @@ class UserCard extends React.Component{
         userList: PropTypes.array.isRequired
     };
     handleClick(v){
-        this.props.history.push('/msg?userId='+v._id)
+        this.props.history.push('/chat?userId='+v._id)
     }
     render() {
         return(

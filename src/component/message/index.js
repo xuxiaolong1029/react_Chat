@@ -1,65 +1,51 @@
 import React from 'react'
-import {List,InputItem} from 'antd-mobile'
-import { connect } from 'react-redux';
-import {getMsgList,senMsg,recvMsg} from  '../../redux/chat.redux'
-
+import { connect } from 'react-redux'
+import {List} from 'antd-mobile'
 @connect(
-    state=>state,
-    { getMsgList,senMsg,recvMsg }
+    state => state
 )
 class Msg extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            text:'',msg:[]
+
         };
     }
     componentDidMount(){
-       this.props.getMsgList();
-       this.props.recvMsg();
-    }
-    handelSubmit(){
-        let from = this.props.user._id;
-        let to = this.props.location.search.split('=')[1];
-        let msg = this.state.text;
-        this.props.senMsg(from,to,msg);
-        this.setState({
-            text:''
-        });
+
     }
     render(){
-      /*  console.log(this.props.chat.chatmsg)*/
-        const fromUserId = this.props.location.search.split('=')[1];
-        const Item = List.Item;
-        return(
-            <div id='chat-page'>
-                {
-                    this.props.chat.chatMsg.map(v=>{
-                        return v.from===fromUserId?(
-                            <List key={v._id}>
-                                <Item>对方发送的：{v.content}</Item>
-                            </List>
-                        ):(
-                            <List key={v._id}>
-                                <Item extra={'avatar'} className='chat-me'>{v.content}</Item>
-                            </List>
-                        )
-                    })
-                }
-                <div className='stick-footer'>
-                    <List>
-                        <InputItem
-                            placeholder="请输入"
-                            value={this.state.text}
-                            onChange={v=>{this.setState({text: v})}}
-                            extra={<span onClick={() => this.handelSubmit()}>发送</span>}
-                        />
-                    </List>
-                </div>
-            </div>
-
-
-        )
+        const msgGroup = {};
+        this.props.chat.chatMsg.forEach(v=>{
+            msgGroup[v.chatId] = msgGroup[v.chatId]||[];
+            msgGroup[v.chatId].push(v)
+        });
+        let chatList = Object.values(msgGroup);
+        let Item = List.Item;
+        let Brief = Item.Brief;
+        let userId = this.props.user._id;
+        const userInfo = this.props.chat.users;
+        return Object.keys(msgGroup).length?(
+           <div>
+               <List>
+                   {
+                       chatList.map(v=>{
+                          const lastItem = v.pop();
+                          const targetId = v[0].from===userId?v[0].to:v[0].from;
+                          console.log(userInfo[targetId])
+                          let name = userInfo[targetId]?userInfo[targetId].name:'';
+                          let avatar = userInfo[targetId]?userInfo[targetId].avatar:'';
+                          return(
+                              <Item key={lastItem._id}>
+                                  {lastItem.content}
+                                  <Brief>{name}</Brief>
+                              </Item>
+                          )
+                       })
+                   }
+               </List>
+           </div>
+        ):null
     }
 }
 export default Msg

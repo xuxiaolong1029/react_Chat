@@ -9,13 +9,13 @@ class NavListBar extends React.Component{
     };
     render(){
         const {pathname} = this.props.location;
-        //icon:{{url:require(`./img/${v.icon}.png`)}}
-        //seilectedIcon:{{url:require(`./img/${v.icon}-active.png`)}}
         const navList = this.props.data.filter(v=>!v.hide);
+        const unread = this.props.unread>99?'...':this.props.unread;
         return(
             <TabBar>
                 {navList.map(v=>(
                     <TabBar.Item
+                        badge={v.path==='/msg'?unread:0}
                         key={v.path}
                         title={v.text}
                         icon={{uri: require(`./img/${v.icon}.png`)}}
@@ -24,7 +24,7 @@ class NavListBar extends React.Component{
                         onPress={()=>{
                             this.props.history.push(v.path)
                         }}
-                    ></TabBar.Item>
+                    />
                 ))}
             </TabBar>
         )

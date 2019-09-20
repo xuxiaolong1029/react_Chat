@@ -7,20 +7,23 @@ import User from '../center/index';
 import Boss from '../boss/index';
 import Genius from '../genius/index';
 import Msg from '../message/index';
+import {getMsgList,recvMsg} from  '../../redux/chat.redux'
 // TabBar, ListView,
 @connect(
-    state=>state
+    state=>state,
+    {getMsgList,recvMsg}
 )
 
 class Dashboard extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={}
+    componentDidMount(){
+        if(!this.props.chat.chatMsg.length){
+            this.props.getMsgList();
+            this.props.recvMsg();
+        }
     }
     render(){
         const pathname = this.props.location.pathname;
         const user = this.props.user;
-        console.log(user)
         const navList = [
             {
                 path:'/boss',text:'牛人',icon:'boss',
@@ -44,7 +47,7 @@ class Dashboard extends React.Component{
         return(
             <div>
                 <NavBar mode='dark'>{
-                   navList.find(v=>v.path===pathname).title
+                   navList.some(v=>v.path===pathname)?navList.find(v=>v.path===pathname).title:''
                 }
                 </NavBar>
                 <div>
@@ -58,7 +61,7 @@ class Dashboard extends React.Component{
                     </Switch>
                 </div>
                 <div className="footer">
-                    <NavListBar data={navList}/>
+                    <NavListBar unread={this.props.chat.unread} data={navList}/>
                 </div>
             </div>
         )

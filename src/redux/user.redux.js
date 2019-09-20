@@ -1,10 +1,7 @@
 //reducer
+import { AUTH_SUCCESS,ERROR_MSG,LOAD_DATA,LOGOUT }from './action-type'
 import axios from 'axios';
 import {getReadirection} from '../unit';
-const AUTH_SUCCESS = 'AUTH_SUCCESS';
-const ERROR_MSG = 'ERROR_MSG';
-const LOAD_DATA = 'LOAD_DATA';
-const LOGOUT = 'LOGOUT';
 const initState={
     redirecTo:'',
     isAuth:false,

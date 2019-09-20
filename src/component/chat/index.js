@@ -1,10 +1,105 @@
-import React from 'react';
-class  Chat extends React.Component{
-   render() {
-       console.log(this.props);
-       return(
-           <h2>chat with user:{this.props.match.params.user}</h2>
-       )
-   }
+import React from 'react'
+import {List,InputItem,NavBar,Icon,Grid} from 'antd-mobile'
+import { connect } from 'react-redux';
+import {getMsgList,senMsg,recvMsg} from  '../../redux/chat.redux';
+import { getChatId }from '../../unit';
+
+@connect(
+    state=>state,
+    { getMsgList,senMsg,recvMsg }
+)
+class Chat extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            text:'',msg:[],showEmoji:false
+        };
+    }
+    componentDidMount(){
+        if(!this.props.chat.chatMsg.length){
+            this.props.getMsgList();
+            this.props.recvMsg();
+        }
+    }
+    handelSubmit(){
+        let from = this.props.user._id;
+        let to = this.props.location.search.split('=')[1];
+        let msg = this.state.text;
+        this.props.senMsg(from,to,msg);
+        this.setState({
+            text:''
+        });
+    }
+    fixCarousel(){
+        setTimeout(function () {
+            window.dispatchEvent(new Event(('resize')))
+        },0)
+    }
+    render(){
+        const emoji = '😀 😃 😄 😁 😆 😅 😂 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁 😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐 😷 🤒 🤕 😈 👿 👹 👺 💩 👻 💀 ☠ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾 👐 🙌 👏 🙏 👍 👎 👊 ✊ 🤘 👌 👈 👉 👆 👇 ✋  🖐 🖖 👋  💪 🖕 ✍ 💅 🖖 💄 💋 👄 👅 👂 👃 👁 👀 '
+            .split(' ')
+            .filter(v=>v)
+            .map(v=>({text:v}));
+        const fromUserId = this.props.location.search.split('=')[1];
+        const Item = List.Item;
+        const users = this.props.chat.users;
+        const chatid = getChatId(fromUserId,this.props.user._id);
+        const chatMsg = this.props.chat.chatMsg.filter(v=>v.chatId === chatid);
+        if(!users[fromUserId]){
+            return  null
+        }
+        return(
+            <div id='chat-page'>
+                <NavBar
+                    mode='dark'
+                    icon = {<Icon type='left' />}
+                    onLeftClick={()=>{this.props.history.goBack()}}
+                >{users[fromUserId].name}</NavBar>
+                {
+                    chatMsg.map(v=>{
+                        const avatar = require(`../img/${users[v.from].avatar}.png`);
+                        return v.from===fromUserId?(
+                            <List key={v._id}>
+                                <Item thumb={avatar}>{v.content}</Item>
+                            </List>
+                        ):(
+                            <List key={v._id}>
+                                <Item extra={<img src={avatar} alt=""/>} className='chat-me'>{v.content}</Item>
+                            </List>
+                        )
+                    })
+                }
+                <div className='stick-footer'>
+                    <List>
+                        <InputItem
+                            placeholder="请输入"
+                            value={this.state.text}
+                            onChange={v=>{this.setState({text: v})}}
+                            extra={
+                                <div style={{height:20}}>
+                                    <span role="img" style={{marginRight:10}}
+                                        onClick={() =>{
+                                            this.setState({ showEmoji:!this.state.showEmoji})
+                                            this.fixCarousel()
+                                        }}>😀</span>
+                                    <span onClick={() => this.handelSubmit()}>发送</span>
+                                </div>
+                            }
+                        />
+                    </List>
+                    {
+                       this.state.showEmoji? <Grid
+                            data = {emoji}
+                            columnNum={9}
+                            carouselMaxRow={4}
+                            isCarousel={true}
+                            onClick={v=>{this.setState({text: this.state.text+v.text})}}
+                        />:null
+                    }
+
+                </div>
+            </div>
+        )
+    }
 }
 export default Chat
