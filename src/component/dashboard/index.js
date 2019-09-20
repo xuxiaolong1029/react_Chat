@@ -37,7 +37,7 @@ class Dashboard extends React.Component{
             },
             {
                 path:'/msg',text:'消息',icon:'msg',
-                title:this.props.location.search.split('=')[1],component:Msg
+                title:'消息列表',component:Msg
             },
             {
                 path:'/me',text:'我',icon:'user',
