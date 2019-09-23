@@ -27,7 +27,6 @@ io.on('connection',function(socket){
         Chat.create({chatId, from, to, content: msg}, function (err, doc) {
             io.emit('recvmsg', Object.assign({},doc._doc))
         });
-        console.log(data);
     })
 });
 const userRouter = require('./user');
