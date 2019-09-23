@@ -31,8 +31,31 @@ Router.post('/register',function(req,res){
         })
     })
 });
+Router.post('/readmsg',function(req,res){
+    const userid = req.cookies.userid;
+    const {from} = req.body;
+    if(!userid){
+        return json.dumps({code:1})
+    }
+    Chat.update({from,to:userid},{'$set':{read:true}},{'multi':true},function(err,doc){
+        console.log(doc)
+        if(!err){
+            return res.json({code:0,num:doc.nModified})
+        }
+        return res.json({code:1,msg:'修改失败'})
+    });
+    //findByIdAndUpdate 查找并更新
+   /* Chat.findByIdAndUpdate(userid,body,function(err,doc){
+        const data = Object.assign({},{
+            user:doc.user,
+            type:doc.type
+        },body);
+        return res.json({code:0,data:data})
+    })*/
+});
+
 Router.post('/updata',function(req,res){
-    const userid = req.cookies.userid
+    const userid = req.cookies.userid;
     if(!userid){
         return json.dumps({code:1})
     }
