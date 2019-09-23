@@ -21,11 +21,7 @@ class Chat extends React.Component{
             this.props.recvMsg();
         }
     }
-    componentWillUnmount(){
-        let to = this.props.location.search.split('=')[1];
-        this.props.readMsg(to)
-    }
-    handelSubmit(){
+    handelSubmit(v){
         let from = this.props.user._id;
         let to = this.props.location.search.split('=')[1];
         let msg = this.state.text;
@@ -48,7 +44,6 @@ class Chat extends React.Component{
         const Item = List.Item;
         const users = this.props.chat.users;
         const chatId = getChatId(fromUserId,this.props.user._id);
-        console.log(this.props.chat.chatMsg)
         const chatMsg = this.props.chat.chatMsg.filter(v=>v.chatId === chatId);
         if(!users[fromUserId]){
             return  null
@@ -88,7 +83,7 @@ class Chat extends React.Component{
                                 <div style={{height:20}}>
                                     <span role="img" aria-label='😀' style={{marginRight:10}}
                                         onClick={() =>{
-                                            this.setState({ showEmoji:!this.state.showEmoji})
+                                            this.setState({ showEmoji:!this.state.showEmoji});
                                             this.fixCarousel()
                                         }}>😀</span>
                                     <span onClick={() => this.handelSubmit()}>发送</span>

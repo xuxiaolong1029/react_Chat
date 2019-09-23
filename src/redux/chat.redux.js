@@ -46,6 +46,7 @@ export function recvMsg() {
 }
 //用ws推送信息到服务端
 export function senMsg(from,to,msg) {
+    console.log(from,to,msg);
     return dispatch =>{
         socket.emit('CHAT_SEND',{from,to,msg})
     }
