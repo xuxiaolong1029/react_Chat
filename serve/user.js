@@ -26,19 +26,19 @@ Router.post('/register',function(req,res){
             if(e){
                 return res.json({code:1,msg:'服务端出错了'})
              }
-             const {user,type,_id} = d
-             res.cookie('userid',_id)
-             return res.json({code:0,data:{user,type,_id}})
+             const token =  jwt.sign({user,pwd,id:d._id},'Bearer',{ expiresIn: 3600 });
+             res.cookie('token',token)
+             return res.json({code:0,data:d})
         })
     })
 });
 Router.post('/readmsg',function(req,res){
-    const userid = req.cookies.userid;
+    let token =  jwt.verify(req.cookies.token,'Bearer');
     const {from} = req.body;
-    if(!userid){
+    if(!token){
         return json.dumps({code:1})
     }
-    Chat.update({from,to:userid},{'$set':{read:true}},{'multi':true},function(err,doc){
+    Chat.update({from,to:token.id},{'$set':{read:true}},{'multi':true},function(err,doc){
         if(!err){
             return res.json({code:0,num:doc.nModified})
         }
@@ -47,13 +47,13 @@ Router.post('/readmsg',function(req,res){
 });
 
 Router.post('/updata',function(req,res){
-    const userid = req.cookies.userid;
-    if(!userid){
+    let token =  jwt.verify(req.cookies.token,'Bearer');
+    if(!token){
         return json.dumps({code:1})
     }
     const body = req.body;
     //findByIdAndUpdate 查找并更新
-    User.findByIdAndUpdate(userid,body,function(err,doc){
+    User.findByIdAndUpdate(token.id,body,function(err,doc){
         const data = Object.assign({},{
             user:doc.user,
             type:doc.type
@@ -67,9 +67,8 @@ Router.post('/login',function(req,res){
         if(!doc){
             return res.json({code:1,msg:'用户名或者密码错误'})
         }
-        res.cookie('userid',doc._id);
-        let id=doc._id;
-        const token =  jwt.sign({user,pwd,id},'Bearer',{ expiresIn: 3600 });
+        const token =  jwt.sign({user,pwd,id:doc._id},'Bearer',{ expiresIn: 3600 });
+        res.cookie('token',token)
         return res.json({
             code:res.statusCode,
             data:{
@@ -87,11 +86,11 @@ Router.post('/login',function(req,res){
 });
 Router.get('/info',function(req,res){
     //cookie校验
-    const {userid} = req.cookies;
-    if(!userid){
+    let token =  jwt.verify(req.cookies.token,'Bearer');
+    if(!token){
         return res.json({code:1,msg:'用户信息获取失败'})
     }
-    User.findOne({_id:userid},_filter,function(err,doc){
+    User.findOne({_id:token.id},_filter,function(err,doc){
         if(err){
             return res.json({code:1,msg:'后端出错了'})
         }
@@ -101,7 +100,7 @@ Router.get('/info',function(req,res){
     })
 });
 Router.get('/getmsglist',function(req,res){
-    const user = req.cookies.userid;
+    let token =  jwt.verify(req.cookies.token,'Bearer');
     User.find({},function (e,userdoc) {
         let users = {};
         userdoc.forEach(v=>{
@@ -109,8 +108,7 @@ Router.get('/getmsglist',function(req,res){
                 name:v.user,avatar:v.avatar
             }
         });
-        Chat.find({'$or':[{from:user},{to:user}]},function (err,doc) {
-            console.log(doc)
+        Chat.find({'$or':[{from:token.id},{to:token.id}]},function (err,doc) {
             if(!err){
                 return res.json({
                     code:0,msgs:doc,users

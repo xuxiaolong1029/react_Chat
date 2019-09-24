@@ -104,7 +104,6 @@ class Chat extends React.Component{
                             onClick={v=>{this.setState({text: this.state.text+v.text})}}
                         />:null
                     }
-
                 </div>
             </div>
         )

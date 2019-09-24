@@ -1,12 +1,12 @@
 import axios from 'axios'
+import cookies from 'browser-cookies';
 import { Toast }from 'antd-mobile';
-
 axios.defaults.timeout = 100000;
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8"; //配置请求头信息。
 //拦截请求
 axios.interceptors.request.use(function(config){
     Toast.loading('加载中',0)
-    config.headers.common.Authorization = localStorage.getItem('token');
+    config.headers.common.Authorization = cookies.get('token');
     return config
 },err=>{
     return Promise.reject(err);

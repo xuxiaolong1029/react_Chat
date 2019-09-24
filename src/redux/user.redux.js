@@ -57,7 +57,6 @@ export function login({user,pwd}){
         axios.post('/user/login',{user,pwd})
         .then(res=>{
             if(res.data.code===200){
-                localStorage.setItem('token',res.data.data.access_token)
                 document.cookie = "token=" + res.data.data.access_token;
                 dispatch(authSuccess(res.data.data))
             }else{

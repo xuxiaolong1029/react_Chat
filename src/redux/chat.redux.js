@@ -60,7 +60,6 @@ export function getMsgList() {
         axios.get('/user/getmsglist').then(res=>{
             if(res.data.code===0){
                 let userId = getState().user._id;
-                console.log(res.data.msgs)
                 dispatch(msgList(res.data.msgs,res.data.users,userId))
             }
         }).catch(err=>{
