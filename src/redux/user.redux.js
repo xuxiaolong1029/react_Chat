@@ -56,7 +56,9 @@ export function login({user,pwd}){
     return dispatch=>{
         axios.post('/user/login',{user,pwd})
         .then(res=>{
-            if(res.status===200&&res.data.code===0){
+            if(res.data.code===200){
+                localStorage.setItem('token',res.data.data.access_token)
+                document.cookie = "token=" + res.data.data.access_token;
                 dispatch(authSuccess(res.data.data))
             }else{
                 dispatch(errMsg(res.data.msg))

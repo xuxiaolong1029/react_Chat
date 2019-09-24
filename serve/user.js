@@ -1,5 +1,6 @@
 const express = require('express');
 const utility  = require('utility');
+const jwt = require('jsonwebtoken');
 const Router = express.Router();
 const model = require('./dbase');
 const User = model.getModel('user');
@@ -12,7 +13,7 @@ Router.get('/list',function(req,res){
     User.find({type},function(err,doc){
         return res.json({code:0,data:doc})
     })
-})
+});
 
 Router.post('/register',function(req,res){
     const {user,pwd,type} = req.body;
@@ -53,7 +54,21 @@ Router.post('/login',function(req,res){
             return res.json({code:1,msg:'用户名或者密码错误'})
         }
         res.cookie('userid',doc._id);
-        return res.json({code:0,data:doc})
+        let id=doc._id;
+        const token =  jwt.sign({user,pwd,id},'Bearer',{ expiresIn: 3600 });
+        return res.json({
+            code:res.statusCode,
+            data:{
+                access_token:token,
+                token_type:'Bearer',
+                avatar:doc.avatar,
+                desc:doc.desc,
+                title:doc.title,
+                type:doc.type,
+                user:doc.user,
+                _id:doc.__id
+            }
+        })
     })
 });
 Router.get('/info',function(req,res){
