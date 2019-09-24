@@ -1,12 +1,12 @@
 import React from 'react'
 import {List,InputItem,NavBar,Icon,Grid} from 'antd-mobile'
 import { connect } from 'react-redux';
-import {getMsgList,senMsg,recvMsg} from  '../../redux/chat.redux';
+import {getMsgList,senMsg,recvMsg,readMsg} from  '../../redux/chat.redux';
 import { getChatId }from '../../unit';
 
 @connect(
     state=>state,
-    { getMsgList,senMsg,recvMsg }
+    { getMsgList,senMsg,recvMsg,readMsg }
 )
 class Chat extends React.Component{
     constructor(props){
@@ -53,7 +53,11 @@ class Chat extends React.Component{
                 <NavBar
                     mode='dark'
                     icon = {<Icon type='left' />}
-                    onLeftClick={()=>{this.props.history.goBack()}}
+                    onLeftClick={()=>{
+                        setTimeout(()=>{
+                            this.props.history.goBack()
+                        },200)
+                    }}
                 >{users[fromUserId].name}</NavBar>
                 {
                     chatMsg.map(v=>{
