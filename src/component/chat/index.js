@@ -21,6 +21,10 @@ class Chat extends React.Component{
             this.props.recvMsg();
         }
     }
+    componentWillUnmount(){
+        let to = this.props.location.search.split('=')[1];
+        this.props.readMsg(to)
+    }
     handelSubmit(v){
         let from = this.props.user._id;
         let to = this.props.location.search.split('=')[1];

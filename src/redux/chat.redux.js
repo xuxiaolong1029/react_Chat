@@ -46,7 +46,6 @@ export function recvMsg() {
 }
 //用ws推送信息到服务端
 export function senMsg(from,to,msg) {
-    console.log(from,to,msg);
     return dispatch =>{
         socket.emit('CHAT_SEND',{from,to,msg})
     }
@@ -61,6 +60,7 @@ export function getMsgList() {
         axios.get('/user/getmsglist').then(res=>{
             if(res.data.code===0){
                 let userId = getState().user._id;
+                console.log(res.data.msgs)
                 dispatch(msgList(res.data.msgs,res.data.users,userId))
             }
         }).catch(err=>{
