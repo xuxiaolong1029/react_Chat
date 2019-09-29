@@ -8,6 +8,7 @@ import Boss from '../boss/index';
 import Genius from '../genius/index';
 import Msg from '../message/index';
 import {getMsgList,recvMsg} from  '../../redux/chat.redux'
+import QueueAnim from 'rc-queue-anim'
 // TabBar, ListView,
 @connect(
     state=>state,
@@ -52,12 +53,11 @@ class Dashboard extends React.Component{
                 </NavBar>
                 <div>
                     <Switch>
-                        {
-                            navList.map(v=>(
+                        <QueueAnim type='scaleX' duration={500}>
+                            {navList.map(v=>(
                                 <Route key={v.path} path={v.path} component={v.component}></Route>
-                            ))
-                        }
-
+                            ))}
+                        </QueueAnim>
                     </Switch>
                 </div>
                 <div className="footer">

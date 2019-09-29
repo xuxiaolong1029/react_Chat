@@ -72,15 +72,13 @@ function msgRead({from,userId,num}) {
         type:MSG_READ ,payload:{from,userId,num}
     }
 }
+//async+await配合使用 await必须在async内部
 export function readMsg(from) {
-    return (dispatch,getState) =>{
-        axios.post('/user/readmsg',{from}).then(res=>{
-            if(res.data.code===0){
-                const userId = getState().user._id;
-                dispatch(msgRead({userId,from,num:res.data.num}))
-            }
-        }).catch(err=>{
-            console.log(err)
-        })
+    return async (dispatch,getState) =>{
+        const res = await axios.post('/user/readmsg',{from});
+        const userId = getState().user._id;
+        if(res.data.code===0){
+            dispatch(msgRead({userId,from,num:res.data.num}))
+        }
     }
 }
