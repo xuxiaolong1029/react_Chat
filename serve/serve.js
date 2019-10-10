@@ -1,4 +1,5 @@
-const express = require('express');
+//const express = require('express');
+import express from 'express'
 const bodyParser = require('body-parser');
 const path = require('path');
 const jwt = require('jsonwebtoken');
@@ -7,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const model = require('./dbase');
 const Chat = model.getModel('chat');
 const userRouter = require('./user');
-/* 
+/*
  1.购买域名 2.DNS解析到你的服务器IP  3.安装到你的IP 4.使用pm2管理node进程
 */
 //新建app
@@ -25,11 +26,11 @@ app.all('*',function (req, res, next) {
     }
 });
 //只有登录接口不需要校验token
-/* app.use(expressJWT({ secret: 'Bearer'}).unless({
-    path: ['/user/login','/user/register','/','*']
-}));
+/*app.use(expressJWT({ secret: 'Bearer'}).unless({
+    path: ['/user/login','/user/register','/']
+}));*/
 //验签
-app.use(function (err, req, res, next) {
+/*app.use(function (err, req, res, next) {
     const token = req.headers.authorization;
     if (token) {
         // 解码 token (验证 secret 和检查有效期（exp）)
@@ -42,7 +43,7 @@ app.use(function (err, req, res, next) {
                     case 'TokenExpiredError':
                       res.status(403).json({ code: -1, msg: 'token过期' });
                       break;
-                }              
+                }
             } else {
                 // 如果验证通过，在req中写入解密结果
                 req.decoded = decoded;
@@ -56,7 +57,7 @@ app.use(function (err, req, res, next) {
             message: '没有找到token.'
         });
     }
-}); */
+});*/
 // work with express
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
@@ -79,8 +80,8 @@ app.use(function(req,res,next) {
         return next()
     }
     return res.sendFile(path.resolve('build/index.html'))
-})
-app.use('/',express.static(path.resolve('build')))
+});
+app.use('/',express.static(path.resolve('build')));
 /* app.get('/',function(req,res){
  res.send('<h1>hello world</h1>')
 }); */
