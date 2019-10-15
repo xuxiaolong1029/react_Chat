@@ -45,6 +45,7 @@ class Dashboard extends React.Component{
                 title:'个人中心',component:User
             },
         ];
+        const page = navList.find(v=>v.path===pathname)
         return(
             <div>
                 <NavBar mode='dark'>{
@@ -53,10 +54,8 @@ class Dashboard extends React.Component{
                 </NavBar>
                 <div>
                     <Switch>
-                        <QueueAnim type='scaleX' duration={500}>
-                            {navList.map(v=>(
-                                <Route key={v.path} path={v.path} component={v.component}></Route>
-                            ))}
+                        <QueueAnim type='scaleX' duration={800}>
+                            <Route key={page.path} path={page.path} component={page.component}></Route>
                         </QueueAnim>
                     </Switch>
                 </div>
