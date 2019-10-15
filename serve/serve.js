@@ -3,25 +3,25 @@ import "@babel/polyfill";
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
-import jwt from 'jsonwebtoken';
-import expressJWT from 'express-jwt';
-import cookieParser from 'cookie-parser';
-import model from './dbase';
-import userRouter from './user';
 //解决图片问题，需要require
-
 import csshook from 'css-modules-require-hook/preset' // import hook before routes
 import assethook from 'asset-require-hook';
 assethook({
     extensions:['png']
 })
+import jwt from 'jsonwebtoken';
+import expressJWT from 'express-jwt';
+import cookieParser from 'cookie-parser';
+import model from './dbase';
+import userRouter from './user';
+
 import React from 'react';
 import {createStore,applyMiddleware,compose} from 'redux';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import {StaticRouter} from 'react-router-dom';
-import reducer from '../src/reducers';
 import App from '../src/app'
+import reducers from '../src/reducers';
 import {renderToString} from 'react-dom/server';
 import staticPath from '../build/asset-manifest.json';
 
@@ -101,7 +101,7 @@ app.use(function(req,res,next){
     if(req.url.startsWith('/user/') || req.url.startsWith('/static/')){
         return next()
     }
-    const store = createStore(reducer,compose(
+    const store = createStore(reducers,compose(
         applyMiddleware(thunk)
     ));
     let context = {}
@@ -112,21 +112,20 @@ app.use(function(req,res,next){
             </StaticRouter>
         </Provider>)
     )
-    const pageHtml=`<!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <link rel="stylesheet" href="/${staticPath.files['main.css']}">
-        <title>Chat</title>
-        <script src="/${staticPath.files['main.js']}"></script>
-      </head>
-      <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root">${markup}</div>
-      </body>
-    </html>`
+    const pageHtml=`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="stylesheet" href="/${staticPath.files['main.css']}">
+            <title>Chat</title>
+            <script src="/${staticPath.files['main.js']}"></script>
+        </head>
+        <body>
+            <div id="root">${markup}</div>
+        </body>
+        </html>`;
     res.send(pageHtml)
     //return res.sendFile(path.resolve('build/index.html'));   
 })
