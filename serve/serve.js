@@ -8,7 +8,13 @@ import expressJWT from 'express-jwt';
 import cookieParser from 'cookie-parser';
 import model from './dbase';
 import userRouter from './user';
+//解决图片问题，需要require
 
+import csshook from 'css-modules-require-hook/preset' // import hook before routes
+import assethook from 'asset-require-hook';
+assethook({
+    extensions:['png']
+})
 import React from 'react';
 import {createStore,applyMiddleware,compose} from 'redux';
 import thunk from 'redux-thunk';
@@ -18,12 +24,7 @@ import reducer from '../src/reducers';
 import App from '../src/app'
 import {renderToString} from 'react-dom/server';
 import staticPath from '../build/asset-manifest.json';
-//解决图片问题，需要require
-import csshook from 'css-modules-require-hook/preset';
-import assethook from 'asset-require-hook';
-assethook({
-    extensions:['png']
-})
+
 const Chat = model.getModel('chat');
 const app = express();
 const server = require('http').Server(app);
@@ -117,12 +118,9 @@ app.use(function(req,res,next){
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
-        <link rel="stylesheet" href="/${staticPath['main.css']}">
+        <link rel="stylesheet" href="/${staticPath.files['main.css']}">
         <title>Chat</title>
-        <script>
-          var vConsole = new VConsole();
-        </script>
-        <script src="/${staticPath['main.js']}"></<script>
+        <script src="/${staticPath.files['main.js']}"></script>
       </head>
       <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
