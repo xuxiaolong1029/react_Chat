@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import {NavBar } from 'antd-mobile';
 import NavListBar from "../navlink/index";
-import {Switch,Route} from 'react-router-dom';
+import {Route,Redirect} from 'react-router-dom';
 import User from '../center/index';
 import Boss from '../boss/index';
 import Genius from '../genius/index';
@@ -45,26 +45,26 @@ class Dashboard extends React.Component{
                 title:'个人中心',component:User
             },
         ];
-        return(
+        const page = navList.find(v=>v.path===pathname);
+        return page?(
             <div>
                 <NavBar mode='dark'>{
-                   navList.some(v=>v.path===pathname)?navList.find(v=>v.path===pathname).title:''
+                   //navList.some(v=>v.path===pathname)?navList.find(v=>v.path===pathname).title:''
+                   page.title
                 }
                 </NavBar>
                 <div>
-                    <Switch>
-                        <QueueAnim type='scaleX' duration={500}>
-                            {navList.map(v=>(
-                                <Route key={v.path} path={v.path} component={v.component}></Route>
-                            ))}
-                        </QueueAnim>
-                    </Switch>
+                    <QueueAnim type='scaleX' duration={500}>
+                        {navList.map(v=>(
+                            <Route key={v.path} path={v.path} component={v.component}></Route>
+                        ))}
+                    </QueueAnim>
                 </div>
                 <div className="footer">
                     <NavListBar unread={this.props.chat.unread} data={navList}/>
                 </div>
             </div>
-        )
+        ):<Redirect exact to='/msg'></Redirect>
     }
 }
 export default Dashboard
