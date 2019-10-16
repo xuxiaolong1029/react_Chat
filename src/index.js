@@ -17,12 +17,12 @@ import {createStore,applyMiddleware,compose} from 'redux';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
-import reducer from './reducers';
+import reducers from './reducers';
 import App from './app'
 import './config'
 import './index.css'
 
-const store = createStore(reducer,compose(
+const store = createStore(reducers,compose(
     applyMiddleware(thunk),
     window.devToolsExtension?window.devToolsExtension():f=>f
 ));
