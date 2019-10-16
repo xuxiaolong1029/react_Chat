@@ -22,7 +22,7 @@ import {Provider} from 'react-redux';
 import {StaticRouter} from 'react-router-dom';
 import App from '../src/app'
 import reducers from '../src/reducers';
-import {renderToString,renderToNodeStream} from 'react-dom/server';
+import {renderToNodeStream} from 'react-dom/server';
 import staticPath from '../build/asset-manifest.json';
 
 const Chat = model.getModel('chat');
