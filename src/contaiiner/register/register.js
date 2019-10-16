@@ -1,4 +1,4 @@
-import React from 'React'
+import React from 'react'
 import {Redirect} from 'react-router-dom'
 import Logo from  '../../component/logo/logo'
 import {List,InputItem,Radio,WingBlank,WhiteSpace,Button} from 'antd-mobile'

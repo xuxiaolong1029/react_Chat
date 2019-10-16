@@ -13,18 +13,12 @@ class App extends React.Component{
             <div>
                 <AuthRoute/>
                 <Switch>
-                    <Route path='/bossinfo' component={BossInfo}>
-                    </Route>
-                    <Route path='/geniusinfo' component={GeniusInfo}>
-                    </Route>
-                    <Route path='/login' component={LoginPage}>
-                    </Route>
-                    <Route path='/register' component={Register}>
-                    </Route>
-                    <Route path='/chat' component={Chat}>
-                    </Route>
-                    <Route component={Dashboard}>
-                    </Route>
+                    <Route path='/bossinfo' component={BossInfo}></Route>
+                    <Route path='/geniusinfo' component={GeniusInfo}></Route>
+                    <Route path='/login' component={LoginPage}></Route>
+                    <Route path='/register' component={Register}></Route>
+                    <Route path='/chat' component={Chat}></Route>
+                    <Route component={Dashboard}></Route>
                 </Switch>
             </div>
         )
