@@ -92,8 +92,9 @@
     "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "serve": "cross-env NODE_ENV=test nodemon --exec babel-node serve/serve.js",
-    "serve-bak": "nodemon serve/serve.js"
+    "serve": "cross-env NODE_ENV=production nodemon --exec babel-node serve/serve.js",
+    "serve-bak": "nodemon serve/serve.js",
+    "packServer": "cross-env NODE_ENV=production webpack --config ./config/webpack.server.config.js"
   },
   "eslintConfig": {
     "extends": "react-app"
