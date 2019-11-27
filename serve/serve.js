@@ -47,7 +47,6 @@ app.all('*',function (req, res, next) {
     path: ['/user/login','/user/register','/']
 })); */
 // work with express
-
 io.on('connection',function(socket){
     socket.on('CHAT_SEND',function (data) {
         const {from,to,msg} = data;
